@@ -67,7 +67,7 @@ RUN cd /root && \
 FROM ubuntu:24.04
 
 COPY --from=build /usr/local/lib /usr/local/lib
-COPY --from=build /usr/local/bin/vips /usr/local/bin/vips
+COPY --from=build /usr/local/bin/vips* /usr/local/bin/
 COPY --from=build /usr/bin /usr/bin
 COPY --from=build /lib/x86_64-linux-gnu /lib/x86_64-linux-gnu
 COPY --from=build /etc /etc
