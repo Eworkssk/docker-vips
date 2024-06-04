@@ -26,7 +26,6 @@ RUN mv /usr/lib/python3.12/EXTERNALLY-MANAGED /usr/lib/python3.12/EXTERNALLY-MAN
 RUN apt update -y && \
     apt install -y libfftw3-dev \
     libhwy-dev \
-    liborc-0.4-dev \
     libopenexr-dev \
     libgsf-1-dev \
     libjpeg-turbo8-dev \
@@ -48,8 +47,11 @@ RUN apt update -y && \
     libheif-dev \
     libpoppler-glib-dev \
     libcgif-dev \
-    libmagickcore-6.q16-dev && \
-    apt autoremove && apt-get clean && rm -rf /var/lib/apt/lists/*
+    libde265-dev \
+    libx265-dev \
+    libheif-plugin-* \
+    libmagickcore-6.q16-dev \
+    && apt autoremove && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install libvips
 RUN cd /root && \
@@ -70,6 +72,7 @@ COPY --from=build /usr/local/lib /usr/local/lib
 COPY --from=build /usr/local/bin/vips* /usr/local/bin/
 COPY --from=build /usr/bin /usr/bin
 COPY --from=build /lib/x86_64-linux-gnu /lib/x86_64-linux-gnu
+COPY --from=build /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu
 COPY --from=build /etc /etc
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
