@@ -65,6 +65,9 @@ RUN cd /root && \
     ldconfig && \
     cd /root && rm vips-8.15.2.tar.xz && rm -rf vips-8.15.2
 
+RUN mkdir -p /lib/x86_64-linux-gnu && mkdir -p /lib/aarch64-linux-gnu
+RUN mkdir -p /usr/lib/x86_64-linux-gnu && mkdir -p /usr/lib/aarch64-linux-gnu
+
 
 FROM ubuntu:24.04
 
@@ -72,7 +75,9 @@ COPY --from=build /usr/local/lib /usr/local/lib
 COPY --from=build /usr/local/bin/vips* /usr/local/bin/
 COPY --from=build /usr/bin /usr/bin
 COPY --from=build /lib/x86_64-linux-gnu /lib/x86_64-linux-gnu
+COPY --from=build /lib/aarch64-linux-gnu /lib/aarch64-linux-gnu
 COPY --from=build /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu
+COPY --from=build /usr/lib/aarch64-linux-gnu /usr/lib/aarch64-linux-gnu
 COPY --from=build /usr/share/color /usr/share/color
 COPY --from=build /usr/share/ghostscript /usr/share/ghostscript
 COPY --from=build /usr/share/poppler /usr/share/poppler
