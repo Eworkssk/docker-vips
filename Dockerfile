@@ -73,6 +73,10 @@ COPY --from=build /usr/local/bin/vips* /usr/local/bin/
 COPY --from=build /usr/bin /usr/bin
 COPY --from=build /lib/x86_64-linux-gnu /lib/x86_64-linux-gnu
 COPY --from=build /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu
+COPY --from=build /usr/share/color /usr/share/color
+COPY --from=build /usr/share/ghostscript /usr/share/ghostscript
+COPY --from=build /usr/share/poppler /usr/share/poppler
+COPY --from=build /usr/share/mime /usr/share/mime
 COPY --from=build /etc /etc
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
