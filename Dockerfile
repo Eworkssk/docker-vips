@@ -55,15 +55,15 @@ RUN apt update -y && \
 
 # Install libvips
 RUN cd /root && \
-    wget https://github.com/libvips/libvips/releases/download/v8.15.2/vips-8.15.2.tar.xz && \
-    tar xf vips-8.15.2.tar.xz && \
-    cd /root/vips-8.15.2 && \
+    wget https://github.com/libvips/libvips/releases/download/v8.17.0/vips-8.17.0.tar.xz && \
+    tar xf vips-8.17.0.tar.xz && \
+    cd /root/vips-8.17.0 && \
     meson setup build --libdir=lib --buildtype=release -Dintrospection=disabled && \
-    cd /root/vips-8.15.2/build && \
+    cd /root/vips-8.17.0/build && \
     meson compile && \
     meson install && \
     ldconfig && \
-    cd /root && rm vips-8.15.2.tar.xz && rm -rf vips-8.15.2
+    cd /root && rm vips-8.17.0.tar.xz && rm -rf vips-8.17.0
 
 RUN mkdir -p /lib/x86_64-linux-gnu && mkdir -p /lib/aarch64-linux-gnu
 RUN mkdir -p /usr/lib/x86_64-linux-gnu && mkdir -p /usr/lib/aarch64-linux-gnu
