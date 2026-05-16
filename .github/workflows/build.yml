@@ -56,8 +56,10 @@ jobs:
             VIPS_VERSION=${{ steps.vips.outputs.version }}
           tags: |
             eworkssk/vips:${{ steps.vips.outputs.tag }}
+            eworkssk/vips:${{ steps.vips.outputs.version }}
             eworkssk/vips:${{ steps.vips.outputs.minor }}
             eworkssk/vips:latest
             ghcr.io/eworkssk/vips:${{ steps.vips.outputs.tag }}
+            ghcr.io/eworkssk/vips:${{ steps.vips.outputs.version }}
             ghcr.io/eworkssk/vips:${{ steps.vips.outputs.minor }}
             ghcr.io/eworkssk/vips:latest

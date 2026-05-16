@@ -42,6 +42,7 @@ libvips compiled from the latest release with a wide set of format support libra
 |--------------|--------------------------------------|
 | `latest`     | Latest build                         |
 | `8.18`       | Latest build of the 8.18.x line      |
+| `8.18.2`     | Latest build of libvips 8.18.2       |
 | `8.18.2-47`  | libvips 8.18.2, build #47            |
 
 _Tags are examples — see [Docker Hub](https://hub.docker.com/r/eworkssk/vips) or [GitHub Packages](https://github.com/eworkssk/docker-vips/pkgs/container/vips) for current tags._
