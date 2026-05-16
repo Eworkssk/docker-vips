@@ -1,0 +1,63 @@
+name: Build and Publish
+
+on:
+  schedule:
+    - cron: "0 3 * * 2"  # Tuesday 03:00 UTC
+  push:
+    branches:
+      - master
+    paths:
+      - Dockerfile
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Resolve vips version
+        id: vips
+        run: |
+          VERSION=$(curl -s https://api.github.com/repos/libvips/libvips/releases/latest | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')
+          MINOR=$(echo "$VERSION" | cut -d. -f1,2)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "minor=$MINOR" >> "$GITHUB_OUTPUT"
+          echo "tag=${VERSION}-${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            VIPS_VERSION=${{ steps.vips.outputs.version }}
+          tags: |
+            eworkssk/vips:${{ steps.vips.outputs.tag }}
+            eworkssk/vips:${{ steps.vips.outputs.minor }}
+            eworkssk/vips:latest
+            ghcr.io/eworkssk/vips:${{ steps.vips.outputs.tag }}
+            ghcr.io/eworkssk/vips:${{ steps.vips.outputs.minor }}
+            ghcr.io/eworkssk/vips:latest
